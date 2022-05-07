@@ -28,22 +28,29 @@
     </header>
     <main class="main">
       <section>
-        <h2>Add new entry</h2>
-        <form action="/" method="POST" class="entry__form">
-          <textarea name="entry" id="entry" cols="30" rows="10" placeholder="Write a log for today!" class="form__textarea"></textarea>
-          <button type="submit" class="form__submit btn btn-primary">Add entry</button>
+        <h2>Add Content</h2>
+        <form action="/" method="POST" class="content__form">
+          <textarea name="content" id="content" cols="30" rows="10" placeholder="Write a log for today!" class="form__textarea"></textarea>
+          <div class="input-group input-group__author">
+            <h3 class="input-group__title">Author</h3>
+            <p class="input-group__control">
+              <input type="text" name="first_name" id="first_name" placeholder="First name" class="author-name__input">
+              <input type="text" name="last_name" id="last_name" placeholder="Last name" class="author-name__input">
+            </p>
+          </div>
+          <button type="submit" class="form__submit btn btn-primary">Post article</button>
         </form>
       </section>
       <section>
         <h2>Recent posts</h2>
-        {% for entry in entries %}
-        <article class="entry">
-          <div class="entry__header">
-            <h3 class="entry__title">{{ entry[0] | truncate(30,true) }}</h3>
-            <time class="entry__date" datetime="{{ entry[1].strftime("%d-%m-%Y") }}">• <span>{{ entry[1].strftime("%b %d %I:%M%p") }}</span></time>
+        {% for content in contents %}
+        <article class="content">
+          <div class="content__header">
+            <h3 class="content__title">{{ content["content"] | truncate(30,true) }}</h3>
+            <time class="content__date" datetime="{{ content["date_posted"].astimezone().strftime("%d-%m-%Y") }}">• <span>{{ content["date_posted"].astimezone().strftime("%b %d %I:%M%p") }}</span></time>
           </div>
-          <p class="entry__content">
-            {{ entry[0] }}
+          <p class="content__post">
+            {{ content["content"] }}
           </p>
         </article>
         {% endfor %}

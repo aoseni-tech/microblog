@@ -1,19 +1,17 @@
+from flask import Flask, redirect, render_template, request
 from datetime import datetime, timezone
-from flask import Flask, render_template, request
-from pymongo import MongoClient
-from dotenv import dotenv_values
+from models.entry import entries
 
-app = Flask(__name__)
-config = dotenv_values(".env")
-client = MongoClient(config["DB_URL"])
+blog_app = Flask(__name__)
 
-entries = []
-
-@app.route("/", methods=["GET", "POST"])
-def home():
-    if request.method == "POST":
-        entry_content = request.form.get("entry")
-        date_posted = datetime.now(tz=timezone.utc)
-        local_date = date_posted.astimezone()
-        entries.append((entry_content, local_date))
-    return render_template("home.html", entries=entries)
+if __name__ == "__main__":
+    @blog_app.route("/", methods=["GET", "POST"])
+    def home():
+        if request.method == "POST":
+            form_post = request.form
+            article_entries = {key: form_post.get(key) for key in form_post.keys()}
+            article_entries["date_posted"] = datetime.now(tz=timezone.utc)
+            entries.insert_one(article_entries)
+            return redirect(request.url)
+        contents = entries.find()
+        return render_template("home.html", contents=contents)
