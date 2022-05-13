@@ -1,5 +1,3 @@
-from utils.mongo_schema import microblog_db
-
 entry_schema = {
     "$jsonSchema": {
         "bsonType": "object",
@@ -17,4 +15,3 @@ entry_schema = {
     }
 }
 
-entries = microblog_db.document('entries', entry_schema)
