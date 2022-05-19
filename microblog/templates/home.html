@@ -1,78 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="description" content="Web tutorials" />
-    <meta name="keywords" content="HTML, CSS, JavaScript" />
-    <meta name="author" content="Fola Oseni" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Microblog</title>
-    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="/static/styles/style.css" />
-  </head>
-  <body>
-    <header>
-      <nav class="navbar">
-        <a href="/" class="brand">
-          <span class="logo__container"><img src="/static/img/logo.svg" alt="brand_logo" class="logo"></span>          
-          Microblog            
-        </a>
-        <ul class="navbar__navigation">
-          <li class="navbar__navigation-item"><a href="#" class="navbar__link navbar__link-active">Recent</a></li>
-          <li class="navbar__navigation-item"><a href="#" class="navbar__link">Calendar</a></li>
-          <li class="navbar__navigation-item"><a href="#" class="navbar__btn btn btn-primary">Register</a></li>
-          <li class="navbar__navigation-item"><a href="#" class="navbar__btn btn btn-outline">Log in</a></li>
-        </ul>
-      </nav>
-    </header>
-    <main class="main">
-      <section>
-        <h2>Add Content</h2>
-        <form action="/" method="POST" class="content__form">
-          <textarea name="content" id="content" cols="30" rows="10" placeholder="Write a log for today!" class="form__textarea"></textarea>
-          <div class="input-group input-group__author">
-            <h3 class="input-group__title">Author</h3>
-            <p class="input-group__control">
-              <input type="text" name="first_name" id="first_name" placeholder="First name" class="author-name__input">
-              <input type="text" name="last_name" id="last_name" placeholder="Last name" class="author-name__input">
-            </p>
-          </div>
-          <button type="submit" class="form__submit btn btn-primary">Post article</button>
-        </form>
-      </section>
-      <section>
-        <h2>Recent posts</h2>
-        {% for content in contents %}
-        <article class="content">
-          <div class="content__header">
-            <h3 class="content__title">{{ content[0] | truncate(30,true) }}</h3>
-            <time class="content__date" datetime="{{ content[3].strftime("%d-%m-%Y") }}">• <span>{{ content[3].strftime("%b %d %I:%M%p") }}</span></time>
-          </div>
-          <p class="content__post">
-            {{ content[0] }}
-          </p>
-        </article>
-        {% endfor %}
-      </section>
-    </main>
-    <footer class="footer">
-        <div class="footer__content">
-            <section class="footer__left">
-              <a href="#" class="footer__item">Made by Fola</a>
-              <a href="#" class="footer__item">Check out my other projects</a>
-            </section>
-            <section class="footer__right">
-              <div class="footer__column">
-                <a href="#" class="footer__item">Recent</a>
-                <a href="#" class="footer__item">Calendar</a>
-              </div>
-              <div class="footer__column">
-                <a href="#" class="footer__item">About</a>
-                <p>© 2022</p>
-              </div>
-            </section>
-        </div>
-    </footer>
-  </body>
-</html>
+{% extends "layout/base.html" %}
+{% block title %}Home{% endblock %}
+{% block main %}
+
+  <section>
+    <h2>Add Content</h2>
+    <form action="/" method="POST" class="content-form" novalidate>
+     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+      <div class="input-group" >
+        <textarea name="content" id="content" cols="30" rows="10" placeholder="Write a log for today!" class="form-control form__textarea content-form__textarea {{ 'is-invalid' if form.content.errors }}" minlength="20" required>{{ form.content.data if form.content.data}}</textarea>
+        {% if form.content.errors %}
+          <span class="form-error__message">{{ form.content.errors[0] }}</span>
+        {% endif %}
+      </div>
+
+      <h3>Author</h3>
+      <div class="input-group input-group__author">
+        <p class="input-group-text">
+          <input type="text" name="first_name" id="first_name" placeholder="First name" class="form-control input-text input-text__author {{ 'is-invalid' if form.first_name.errors }}" value="{{ form.first_name.data if form.first_name.data }}" required>
+          {% if form.first_name.errors %}
+          <span class="form-error__message">{{ form.first_name.errors[0] }}</span>
+          {% endif %}
+        </p>
+        <p class="input-group-text">
+          <input type="text" name="last_name" id="last_name" placeholder="Last name" class="form-control input-text input-text__author {{ 'is-invalid' if form.last_name.errors }}" value="{{ form.last_name.data if form.last_name.data }}" required>
+          {% if form.last_name.errors %}
+            <span class="form-error__message">{{ form.last_name.errors[0] }}</span>
+          {% endif %}
+        </p>        
+      </div>
+
+      <button type="submit" class="form-submit btn btn-primary">Post article</button>
+
+    </form>
+  </section>
+
+  <section>
+    <h2>Recent posts</h2>
+    {% for content in contents %}
+    <article class="content">
+      <div class="content__header">
+        <h3 class="content__title">{{ content[0] | truncate(30,true) }}</h3>
+        <time class="content__date" datetime="{{ content[3].strftime("%d-%m-%Y") }}">• <span>{{ content[3].strftime("%b %d %I:%M%p") }}</span></time>
+      </div>
+      <p class="content__post">
+        {{ content[0] }}
+      </p>
+      <p class="content__author">
+        Author - {{ content[1] }} {{ content[2] }}
+      </p>
+    </article>
+    {% endfor %}
+  </section>
+
+{% endblock %}
