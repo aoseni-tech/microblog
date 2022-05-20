@@ -91,7 +91,7 @@ body {
 .main {
   width: 35rem;
   max-width: 80%;
-  margin: 1rem auto;
+  margin: 1.5rem auto;
   padding-bottom: 1rem;
 }
 .form-control {
@@ -189,6 +189,28 @@ body {
 
 .content__author {
   font-style: italic;
+}
+
+.error-page__info {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+}
+
+.error-page__name {
+  font-size: 1.5rem;
+}
+
+.error-page__code {
+  font-size: 5.5rem;
+}
+
+.error-page__description {
+  font-size: 1.5rem;
 }
 
 .footer {

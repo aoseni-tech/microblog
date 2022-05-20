@@ -1,0 +1,5 @@
+graft microblog/static
+graft microblog/templates
+graft microblog/routes
+graft microblog/utils
+global-exclude *.pyc
