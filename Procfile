@@ -1,0 +1,1 @@
+web: gunicorn "microblog:create_app()"
