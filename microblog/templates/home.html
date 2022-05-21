@@ -40,7 +40,7 @@
     <article class="content">
       <div class="content__header">
         <h3 class="content__title">{{ content[0] | truncate(30,true) }}</h3>
-        <time class="content__date" datetime="{{ content[3].strftime("%d-%m-%Y") }}">• <span>{{ content[3].strftime("%b %d %I:%M%p") }}</span></time>
+        <time class="content__date" datetime="{{ content[3] }}">• <span>{{ content[3] }}</span></time>
       </div>
       <p class="content__post">
         {{ content[0] }}
