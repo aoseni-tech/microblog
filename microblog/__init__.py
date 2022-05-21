@@ -1,15 +1,16 @@
 from flask import Flask
 from flask_wtf.csrf import CSRFProtect
-from . import schema, config
+from . import schema
+from .config import env_config
 
 csrf = CSRFProtect()
 
 
-def create_app(app_config=config.DevConfig) -> Flask:
+def create_app(app_config=env_config) -> Flask:
     """Application factory function
 
     Args:
-        test_config (bool, optional): _description_. Defaults to False.
+        app_config : The app configuration variables
 
     Returns:
         Flask: The flask app object
@@ -21,6 +22,7 @@ def create_app(app_config=config.DevConfig) -> Flask:
     app.entry_form = schema.EntryForm
 
     csrf.init_app(app)
+    
     from .utils import db, app_errors
 
     db.init_db(app)

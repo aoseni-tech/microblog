@@ -12,13 +12,13 @@ class Config:
     TEMPLATES_FOLDER = "templates"
     TESTING = False
     DEBUG = False
+    MONGO_URI = config.get("MONGO_URI")
 
 
 class ProdConfig(Config):
     """App config for production"""
 
     ENV = "production"
-    MONGO_URI = config.get("PROD_MONGO_URI")
 
 
 class DevConfig(Config):
@@ -26,10 +26,9 @@ class DevConfig(Config):
 
     ENV = "development"
     DEBUG = True
-    TESTING = True
-    MONGO_URI = config.get("DEV_MONGO_URI")
 
-class TestConfig(DevConfig):
+
+class TestConfig:
     """App config for testing
 
     Args:
@@ -40,3 +39,11 @@ class TestConfig(DevConfig):
     DATABASE = config.get("TEST_DATABASE")
     MONGO_URI = config.get("TEST_MONGO_URI")
     SECRET_KEY = config.get("TEST_SECRET_KEY")
+    TESTING = True
+
+
+mode = config.get("MODE")
+
+env_config = DevConfig
+if mode == "PRODUCTION":
+    env_config = ProdConfig
