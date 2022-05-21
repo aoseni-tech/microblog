@@ -12,7 +12,7 @@ class Config:
     STATIC_FOLDER = "static"
     TEMPLATES_FOLDER = "templates"
     TESTING = False
-    DEBUG = True
+    DEBUG = False
     MONGO_URI = environ.get("MONGO_URI")
 
 
@@ -26,7 +26,7 @@ class DevConfig(Config):
     """App config for development"""
 
     ENV = "development"
-
+    DEBUG = True
 
 class TestConfig:
     """App config for testing
@@ -40,6 +40,7 @@ class TestConfig:
     MONGO_URI = environ.get("TEST_MONGO_URI")
     SECRET_KEY = environ.get("TEST_SECRET_KEY")
     TESTING = True
+    DEBUG = True
 
 
 mode = environ.get("MODE")
