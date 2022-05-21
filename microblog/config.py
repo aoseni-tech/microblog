@@ -1,19 +1,18 @@
-from dotenv import load_dotenv
-from os import environ
+from dotenv import dotenv_values
 
-load_dotenv()
+config = dotenv_values(".env")
 
 
 class Config:
     """Base config for flask app."""
 
-    SECRET_KEY = environ.get("SECRET_KEY")
-    DATABASE = environ.get("DATABASE")
+    SECRET_KEY = config.get("SECRET_KEY")
+    DATABASE = config.get("DATABASE")
     STATIC_FOLDER = "static"
     TEMPLATES_FOLDER = "templates"
     TESTING = False
     DEBUG = True
-    MONGO_URI = environ.get("MONGO_URI")
+    MONGO_URI = config.get("MONGO_URI")
 
 
 class ProdConfig(Config):
@@ -36,13 +35,13 @@ class TestConfig:
     """
 
     ENV = "testing"
-    DATABASE = environ.get("TEST_DATABASE")
-    MONGO_URI = environ.get("TEST_MONGO_URI")
-    SECRET_KEY = environ.get("TEST_SECRET_KEY")
+    DATABASE = config.get("TEST_DATABASE")
+    MONGO_URI = config.get("TEST_MONGO_URI")
+    SECRET_KEY = config.get("TEST_SECRET_KEY")
     TESTING = True
 
 
-mode = environ.get("MODE")
+mode = config.get("MODE")
 
 env_config = DevConfig
 if mode == "PRODUCTION":
