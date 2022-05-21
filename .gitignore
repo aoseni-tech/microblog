@@ -4,3 +4,5 @@
 __pycache__/
 microblog.egg-info/*
 .coverage
+tests
+htmlcov
