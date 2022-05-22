@@ -135,12 +135,7 @@ body {
   margin-bottom: 1rem;
 }
 
-.form-control:valid ~ .form-error__message {
-  display: none;
-}
-
-.form-control:invalid ~ .form-error__message {
-  display: inline;
+.form-error__message {
   font-size: 0.75rem;
   color: #dc3545;
   position: absolute;
@@ -148,12 +143,20 @@ body {
   left: 0;
 }
 
-.is-invalid:invalid {
+.form-control:valid ~ .form-error__message {
+  display: none;
+}
+
+.form-control:invalid ~ .form-error__message {
+  display: inline;
+}
+
+.is-invalid:invalid, .invalid-textarea {
   border-color: #dc3545;
   outline: none;
 }
 
-.is-invalid:focus:invalid {
+.is-invalid:focus:invalid, .invalid-textarea:focus {
   box-shadow: 0 0 0 0.25rem rgb(220 53 69 / 25%);
   background-color: #fff;
 }
