@@ -7,7 +7,7 @@
     <form action="/" method="POST" class="content-form" novalidate>
      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
       <div class="input-group" >
-        <textarea name="content" id="content" cols="30" rows="10" placeholder="Write a log for today!" class="form-control form__textarea content-form__textarea {{ 'is-invalid' if form.content.errors }}" minlength="20" required>{{ form.content.data if form.content.data}}</textarea>
+        <textarea name="content" id="content" cols="30" rows="10" placeholder="Write a log for today!" class="form-control form__textarea content-form__textarea" minlength="20" required>{{ form.content.data if form.content.data}}</textarea>
         {% if form.content.errors %}
           <span class="form-error__message">{{ form.content.errors[0] }}</span>
         {% endif %}
@@ -40,7 +40,7 @@
     <article class="content">
       <div class="content__header">
         <h3 class="content__title">{{ content[0] | truncate(30,true) }}</h3>
-        <time class="content__date" datetime="{{ content[3].strftime("%d-%m-%Y") }}">• <span>{{ content[3].strftime("%b %d %I:%M%p") }}</span></time>
+        <time class="content__date" datetime="{{ content[3] }}">• <span>{{ content[3] }}</span></time>
       </div>
       <p class="content__post">
         {{ content[0] }}
