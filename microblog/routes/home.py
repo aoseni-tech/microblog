@@ -15,7 +15,7 @@ def home():
         current_app.db.entries.insert_one(entry_form)
         return redirect(request.url)
     contents = [
-        (entry["content"], entry["first_name"], entry["last_name"], entry["date_posted"])
+        (entry["content"], entry["first_name"], entry["last_name"], entry["date_posted"].strftime("%b %d %I:%M%p"))
         for entry in current_app.db.entries.find()
     ]
     if request.content_type == "application/json":
