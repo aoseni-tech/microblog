@@ -1,6 +1,7 @@
-{% extends "layout/base.html" %} {% block title %}Home{% endblock %} {% block
-main %}
-{% from './macros/forms.html' import input_group_text, input_group_textarea %}
+{% from './macros/forms.jinja' import input_group_text, input_group_textarea %}
+{% extends "layout/base.html" %} 
+{% block title %}Home{% endblock %} 
+{% block main %}
 
 <section>
   <h2>Add Content</h2>
@@ -22,6 +23,7 @@ main %}
 
 <section>
   <h2>Recent posts</h2>
+
   {% for entry in entries %} 
   <article class="content">
     <div class="content__header">
@@ -35,8 +37,8 @@ main %}
       Author - {{ entry["first_name"] }} {{ entry["last_name"] }}
     </p>
   </article>
-
   {% endfor %}
+  
 </section>
 
 {% endblock %}
