@@ -2,7 +2,6 @@
 .env
 *.pyc
 __pycache__/
-microblog.egg-info/*
+*.egg-info/
 .coverage
-tests
-htmlcov
+htmlcov/

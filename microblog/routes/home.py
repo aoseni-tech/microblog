@@ -14,12 +14,10 @@ def home():
         }
         current_app.db.entries.insert_one(entry_form)
         return redirect(request.url)
-    contents = [
-        (entry["content"], entry["first_name"], entry["last_name"], entry["date_posted"].strftime("%b %d %I:%M%p"), entry["date_posted"].strftime("%d-%m-%Y"))
-        for entry in current_app.db.entries.find()
-    ]
+    entries = [{'content' : entry['content'], 'date_posted' : entry['date_posted'],  'first_name' : entry['first_name'], 'last_name' : entry['last_name']} for entry in current_app.db.entries.find()]
+    
     if request.content_type == "application/json":
         return {
-            "contents" : contents,
+            "entries" : entries,
         }
-    return render_template("home.html", contents=contents, form=form)
+    return render_template("home.html", entries=entries, form=form)
