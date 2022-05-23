@@ -23,7 +23,7 @@ def test_home_get(client: FlaskClient, app: Flask):
     response_json = client.get("/", headers={"Content-Type": "application/json"})
     #response data when content type is set to application/json
     response_json_data = json.loads(response_json.data.decode())
-    response_json_contents = response_json_data["contents"]
+    response_json_contents = response_json_data["entries"]
     #The default response data, an html rendered
     get_datas = response.data.decode()
     assert response.status_code == 200
@@ -94,7 +94,7 @@ def test_home_post(client: FlaskClient, app: Flask, test_home_get):
     assert (collection_count - prev_count) == 1
     
     #check that the length of response["contents"] returned when the content type is json is the same as the new collection count
-    assert len(get_response_data["contents"]) == collection_count
+    assert len(get_response_data["entries"]) == collection_count
     
     #check for strings in html body
     for data in get_data_to_check:

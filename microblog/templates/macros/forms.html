@@ -1,0 +1,36 @@
+{% macro input_group_text(name, placeholder='', value='', error='') -%}
+<p class="input-group-text">
+  <input
+    type="text"
+    name="{{ name }}"
+    id="{{name}}"
+    placeholder="{{ placeholder }}"
+    class="form-control input-text input-text__author{{ ' is-invalid' if error }}"
+    value="{{value if value}}"  
+    required
+  />
+  {% if error %}
+  <span class="form-error__message">{{ error[0] }}</span>
+  {% endif %}
+</p>
+{%- endmacro %}
+
+{% macro input_group_textarea(name, placeholder='', value='', error='') -%}
+<p class="input-group-text">
+  <textarea
+  name="{{ name }}"
+  id="{{ name }}"
+  cols="30"
+  rows="10"
+  placeholder="{{ placeholder }}"
+  class="form-control form__textarea content-form__textarea"
+  minlength="20"
+  required
+  >{{ value if value}}</textarea>
+  {% if error %}
+  <span class="form-error__message">{{ error[0] }}</span>
+  {% endif %}
+</p>
+{%- endmacro %}
+
+

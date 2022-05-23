@@ -1,55 +1,42 @@
-{% extends "layout/base.html" %}
-{% block title %}Home{% endblock %}
-{% block main %}
+{% extends "layout/base.html" %} {% block title %}Home{% endblock %} {% block
+main %}
+{% from './macros/forms.html' import input_group_text, input_group_textarea %}
 
-  <section>
-    <h2>Add Content</h2>
-    <form action="/" method="POST" class="content-form" novalidate>
-     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-      <div class="input-group" >
-        <textarea name="content" id="content" cols="30" rows="10" placeholder="Write a log for today!" class="form-control form__textarea content-form__textarea" minlength="20" required>{{ form.content.data if form.content.data}}</textarea>
-        {% if form.content.errors %}
-          <span class="form-error__message">{{ form.content.errors[0] }}</span>
-        {% endif %}
-      </div>
+<section>
+  <h2>Add Content</h2>
+  <form action="/" method="POST" class="content-form" novalidate>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+    <div class="input-group">
+      {{ input_group_textarea('content', 'Write a log for today!', form.content.data,form.content.errors) }}
+    </div>
 
-      <h3>Author</h3>
-      <div class="input-group input-group__author">
-        <p class="input-group-text">
-          <input type="text" name="first_name" id="first_name" placeholder="First name" class="form-control input-text input-text__author {{ 'is-invalid' if form.first_name.errors }}" value="{{ form.first_name.data if form.first_name.data }}" required>
-          {% if form.first_name.errors %}
-          <span class="form-error__message">{{ form.first_name.errors[0] }}</span>
-          {% endif %}
-        </p>
-        <p class="input-group-text">
-          <input type="text" name="last_name" id="last_name" placeholder="Last name" class="form-control input-text input-text__author {{ 'is-invalid' if form.last_name.errors }}" value="{{ form.last_name.data if form.last_name.data }}" required>
-          {% if form.last_name.errors %}
-            <span class="form-error__message">{{ form.last_name.errors[0] }}</span>
-          {% endif %}
-        </p>        
-      </div>
+    <h3>Author</h3>
+    <div class="input-group input-group__author">
+      {{ input_group_text('first_name', 'First name', form.first_name.data , form.first_name.errors) }}
+      {{ input_group_text('last_name', 'Last name', form.last_name.data ,  form.last_name.errors) }}
+    </div>
 
-      <button type="submit" class="form-submit btn btn-primary">Post article</button>
+    <button type="submit" class="form-submit btn btn-primary">Post article</button>
+  </form>
+</section>
 
-    </form>
-  </section>
+<section>
+  <h2>Recent posts</h2>
+  {% for entry in entries %} 
+  <article class="content">
+    <div class="content__header">
+      <h3 class="content__title">{{entry['content'] | truncate(30,true) }}</h3>
+      <time class="content__date" datetime="{{ entry['date_posted'].strftime("%d-%m-%Y %I:%M%p") }}"
+        >• <span>{{ entry['date_posted'].strftime("%b %d %I:%M%p") }}</span></time
+      >
+    </div>
+    <p class="content__post"> {{entry['content'] }} </p>
+    <p class="content__author">
+      Author - {{ entry["first_name"] }} {{ entry["last_name"] }}
+    </p>
+  </article>
 
-  <section>
-    <h2>Recent posts</h2>
-    {% for content in contents %}
-    <article class="content">
-      <div class="content__header">
-        <h3 class="content__title">{{ content[0] | truncate(30,true) }}</h3>
-        <time class="content__date" datetime="{{ content[4] }}">• <span>{{ content[3] }}</span></time>
-      </div>
-      <p class="content__post">
-        {{ content[0] }}
-      </p>
-      <p class="content__author">
-        Author - {{ content[1] }} {{ content[2] }}
-      </p>
-    </article>
-    {% endfor %}
-  </section>
+  {% endfor %}
+</section>
 
 {% endblock %}
