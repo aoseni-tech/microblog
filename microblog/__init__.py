@@ -15,14 +15,14 @@ def create_app(app_config=env_config) -> Flask:
     Returns:
         Flask: The flask app object
     """
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder="static")
 
     app.config.from_object(app_config)
 
     app.entry_form = schema.EntryForm
 
     csrf.init_app(app)
-    
+
     from .utils import db, app_errors
 
     db.init_db(app)
