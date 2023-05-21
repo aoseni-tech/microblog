@@ -33,7 +33,7 @@ class PymongoDB_Flask:
         """
         return self.__database
 
-def init_db(app:Flask) -> PymongoDB_Flask:
+def init_db(app:Flask):
     "Initialize the app to set up all db config"    
     flask_mongodb = PymongoDB_Flask(app)
     app.db = flask_mongodb.database
